@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>红绿灯</title>
+  <style>
+    .light {
+      width: 200px;
+      height: 200px;
+      border-radius: 100px;
+      background-color: red;
+      margin: auto;
+      margin-top: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div id="light" class="light"></div>
+  
+  <script>
+    // 把一个圆形div按照绿色3秒，黄色1秒，红色2秒循环改变背景色
+    function greenShow() {
+      return new Promise((resolve, reject) => {
+        console.log('green', new Date().getSeconds());
+        changeLight('green');
+        setTimeout(() => {
+          resolve();
+        }, 3000);
+      })
+    }
+
+    function yellowShow() {
+      return new Promise((resolve, reject) => {
+        console.log('yellow', new Date().getSeconds());
+        changeLight('yellow');
+        setTimeout(() => {
+          resolve();
+        }, 1000);
+      })
+    }
+
+    function redShow() {
+      return new Promise((resolve, reject) => {
+        console.log('red', new Date().getSeconds());
+        changeLight('red');
+        setTimeout(() => {
+          resolve();
+        }, 2000);
+      })
+    }
+
+    function changeLight(color) {
+      const light = document.getElementById('light');
+      light.style.backgroundColor = color;
+    }
+
+    async function main() {
+      while(true) {
+        await greenShow(); // 3s
+        await yellowShow(); // 1s
+        await redShow(); // 2s
+      }
+    }
+
+    main();
+
+    // 更优的方案
+    // function sleep(duration){
+    //   return new Promise(function(resolve){
+    //     setTimeout(resolve, duration);
+    //   })
+    // }
+
+    // async function changeColor(duration,color){
+    //   document.getElementById("traffic-light").style.background = color;
+    //   await sleep(duration);
+    // }
+
+    // async function main(){
+    //   while(true){
+    //     await changeColor(3000,"green");
+    //     await changeColor(1000, "yellow");
+    //     await changeColor(2000, "red");
+    //   }
+    // }
+
+    // main()
+  </script>
+</body>
+</html>
